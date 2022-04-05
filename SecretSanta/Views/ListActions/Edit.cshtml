@@ -1,0 +1,83 @@
+﻿@model SecretSanta.Models.ListActionsModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/Content/themes/base/all.css">
+
+<script>
+    let formUrl = "/api/ListActionsAPI";
+    let mailUrl = "/api/Mail";
+</script>
+
+<script src="~/Scripts/create-edit.js"></script>
+<script src="~/Scripts/edit.js"></script>
+
+<h2>Edit</h2>
+<div class="container col-md-10">
+    @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form" }))
+    {
+        <table class="table">
+            <tr class="list-data">
+                <td>
+                    @Html.LabelFor(m => m.List.Name)
+                    @Html.EditorFor(m => m.List.Name)
+                </td>
+                <td>
+                    @Html.LabelFor(m => m.List.Time)
+                    @Html.EditorFor(m => m.List.Time)
+                </td>
+            </tr>
+            <tr>
+                <th>Host</th>
+                <th>Email</th>
+                <th class="no-remove">Remove</th>
+                <th class="hidable">Showed</th>
+            </tr>
+            <tr class="host-data user-data">
+                <td>@Html.EditorFor(m => m.Users[0].Name) </td>
+                <td>@Html.EditorFor(m => m.Users[0].Mail) </td>
+                <td class="no-remove btn btn-success">Important</td>
+                <td class="hidable">@if (Model.Users[0].Showed == true)
+                {<text>✔️</text>}
+            else
+            {<text>❌</text>}</td>
+            </tr>
+            <tr>
+                <th>Users</th>
+                <th>Email</th>
+            </tr>
+            @for (int i = 1; i < Model.Users.Count; i++)
+            {
+                <tr class="user-data">
+                    <td>@Html.EditorFor(m => m.Users[i].Name) </td>
+                    <td>@Html.EditorFor(m => m.Users[i].Mail) </td>
+                    <td class="remove btn btn-danger">Remove</td>
+                    <td class="hidable">@if (Model.Users[i].Showed == true)
+                    {<text>✔️</text>}
+                else
+                {<text>❌</text>}</td>
+                </tr>
+            }
+        </table>
+        <div id="hidden-inputs" class="d-none">
+            <metaData class="list-data">
+                @Html.HiddenFor(m => m.List.OwnerID)
+                @Html.HiddenFor(m => m.List.ID)
+            </metaData>
+            @for (int i = 0; i < Model.Users.Count; i++)
+            {
+                <metaData class="user-data">
+                    @Html.HiddenFor(m => m.Users[i].ID)
+                </metaData>
+            }
+        </div>
+        <button class="add-user btn btn-success">Add User</button>
+        <button class="btn btn-success btn-submit-edit">Save</button>
+    }
+    <button class="btn btn-warning btn-edit">Edit</button>
+    <button class="btn btn-primary btn-send-mails">Send Emails</button>
+    <p class="mail-warning text-danger danger">Don't forget to send Email verifications</p>
+</div>

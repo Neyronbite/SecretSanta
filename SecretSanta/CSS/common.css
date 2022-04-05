@@ -1,0 +1,28 @@
+﻿
+body {
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    /*background-image: url(https://res.cloudinary.com/dplamugpk/image/upload/h_832,w_1024/v1540748877/winter-horizontal-forweb_mjrttz.jpg);
+    background-size: 100%;*/
+    background-color: #b4c4ff;
+}
+
+.container{
+    /*background-color: white;*/
+}
+
+.d-none {
+    display: none !important;
+}
+
+header {
+    background-color: lightgray;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+footer {
+    background-color: #3c3c3c;
+    color: white;
+}

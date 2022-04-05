@@ -1,0 +1,22 @@
+﻿@model SecretSanta.Models.LoginModel
+
+<div class="text-danger">
+    @Html.ValidationSummary()
+</div>
+
+@using (Html.BeginForm("_Login", "Home", FormMethod.Post, new { id = "login-form" }))
+{
+    @Html.LabelFor(m => m.Owner.Name)
+    <br />
+    @Html.EditorFor(m => m.Owner.Name)
+    <br />
+    @Html.LabelFor(m => m.Owner.Password)
+    <br />
+    @Html.PasswordFor(m => m.Owner.Password)
+    <br />
+    @Html.LabelFor(m => m.RememberMe)<text>&nbsp &nbsp</text>
+    @Html.EditorFor(m => m.RememberMe)
+    <br />
+    <input type="submit" name="submit" value="Login" />
+    @Html.ActionLink("Cancel", "Index", "Home")
+}

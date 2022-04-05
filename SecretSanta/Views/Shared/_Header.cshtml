@@ -1,0 +1,11 @@
+﻿
+<header>
+    <h3 class="row">
+        <span class="col-sm-1"></span>
+        <span class="col-sm-9">Header | <a href="/">Home</a></span>
+        @if (User.IsInRole("admin"))
+        {
+            <span class="btn-success col-sm-1"> Admin</span>
+        }
+    </h3>
+</header>

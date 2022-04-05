@@ -1,0 +1,19 @@
+﻿@model SecretSanta.Models.RegisterModel
+
+<div class="text-danger">
+    @Html.ValidationSummary()
+</div>
+
+@using (Html.BeginForm("_Register", "Home", FormMethod.Post, new { id = "register-form" }))
+{
+    @Html.LabelFor(m => m.Owner.Name)
+    <br />
+    @Html.EditorFor(m => m.Owner.Name)
+    <br />
+    @Html.LabelFor(m => m.Owner.Password)
+    <br />
+    @Html.PasswordFor(m => m.Owner.Password)
+    <br />
+    <input type="submit" name="submit" value="Register" />
+    @Html.ActionLink("Cancel", "Index", "Home")
+}

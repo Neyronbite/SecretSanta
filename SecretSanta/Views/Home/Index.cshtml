@@ -1,0 +1,83 @@
+﻿@model SecretSanta.Models.IndexModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript">
+    let loginUrl = "@Url.Action("_Login", "Home")";
+    let registerUrl = "@Url.Action("_Register","Home")";
+    let deleteUrl = "/api/ListActionsAPI"
+</script>
+<script src="~/Scripts/home-index.js"></script>
+
+<h2>Index</h2>
+<!--TODO add a normal description and steps-->
+<div class="col-md-6 col-md-offset-1">
+    <div class="col-xs-12 col-sm-8 col-md-8">
+        <h1>What is Secret Santa?</h1>
+        <p>It’s a <strong>free</strong> online Secret Santa <strong>gift exchange organizer / Kris Kringle generator</strong>! Organize a Secret Santa party with friends, family or even co-workers. After receiving the Secret Santa mail you can add your own <strong>wishlist</strong>, which will be delivered to your Secret Santa.</p>
+        <p>Each year around <strong>Christmas</strong> time people all over the world exchange gifts.<br> To keep things interesting though, you can <strong>randomly assign persons to each other</strong> to give a present to one another.</p>
+
+        @*<h2>How does it work?</h2>
+            <p>Create a party <a href="@Url.Action("Index")" target="_blank" rel="noopener noreferrer">on the homepage</a>. You need at least 3 participants, <b>the first participant being the list administrator.</b> The list administrator will receive a confirmation link by e-mail. Once validated, your Secret Santa list will be scrambled and all users will receive your message along with the name of their Secret Santa gift buddy. We demand a confirmation to prevent bots or trolls from ruining your Secret Santa party. <b>The validation e-mail will provide a link to the Secret Santa event manager</b>.</p>*@
+
+        <div class="steps">
+            <h2>Your party <br><small>in <span class="accent">3 easy steps</span></small></h2>
+            <ul class="liststyle1">
+                <li class="mb-2"><span class="icon-steps">1</span> List your participants</li>
+                <li class="mb-2"><span class="icon-steps">2</span> Add a message</li>
+                <li class="mb-3"><span class="icon-steps">3</span> Send!</li>
+            </ul>
+            <div class="text-center">
+                <a href="#mysanta" class="btn-started">Get Started!</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3 col-md-offset-2 text-left" @*style="justify-content: flex-end;"*@>
+    @if (Request.IsAuthenticated)
+    {
+        <h3> Hi @User.Identity.Name @Html.ActionLink("Logout", "logout", "Home", new { @class = "text-reset" })</h3>
+        <table class="table">
+            <tr>
+                <th>List Name</th>
+                <th>Action</th>
+            </tr>
+            @foreach (var list in Model.Lists)
+            {
+                <tr>
+                    <td>@list.Name</td>
+                    <!--TODO Edit and Delete-->
+                    <!--TODO style of .delete in new css file-->
+                    <td><a href="~/ListActions/Edit/@list.ID">Edit</a> | <span class="delete text-danger" id="delete-@list.ID" style="cursor: pointer;">Delete</span></td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    @Html.ActionLink("Create New List", "Create", "ListActions")
+                </td>
+            </tr>
+        </table>
+    }
+    else if (Model.LoginModel is null && Model.RegisterModel is null)
+    {
+        <h3 id="h2-text"> You are not logged in</h3>
+
+        <button id="btn-load-login">login</button>
+        <button id="btn-load-register">Register</button>
+        <div id="for-partial"></div>
+    }
+    else
+    {
+        if (Model.LoginModel is null)
+        {
+            @Html.Partial("_Register", Model.RegisterModel)
+        }
+        else if (Model.RegisterModel is null)
+        {
+            @Html.Partial("_Login", Model.LoginModel)
+        }
+    }
+</div>
