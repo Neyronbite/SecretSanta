@@ -16,9 +16,9 @@ namespace SecretSanta.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public ListService()
+        public ListService(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
         }
 
         public bool Create(ListModel list, bool save = false)

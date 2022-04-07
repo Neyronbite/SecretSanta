@@ -16,9 +16,9 @@ namespace SecretSanta.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserService()
+        public UserService(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
         }
 
         public UserModel ConvertToUser(OwnerModel owner)
