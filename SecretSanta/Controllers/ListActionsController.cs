@@ -52,8 +52,10 @@ namespace SecretSanta.Controllers
         {
             var user = _userService.Get(addressorName);
             var list = _listService.GetByID(user.ListID);
+            var owner = _ownerService.Get(list.OwnerID);
 
             var model = new ConfirmModel();
+            model.Owner = owner;
             model.List = list;
             model.Name = name;
 

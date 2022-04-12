@@ -5,7 +5,19 @@
     ViewBag.footer = SecretSanta.common.Enums.PartialStateEnum.none.ToString();
 }
 
-<h2>@Model.Name is your Secret Santa</h2>
+<script type="text/javascript">
+    $(() => {
+        $(".anime-bg").removeClass("anime-bg");
+    })
+</script>
 
-<p>You are invited ... Some Text</p>
+<h2 class="hh"> You are secret santa of <span class="text-danger">@Model.Name</span></h2>
 
+<h3 class="hh">
+    You've been invited to the game Secret Santa by a user named @Model.Owner.Name <br />
+    Now you will have to give a present to a participant named @Model.Name
+</h3>
+
+<p class="hh">
+    if you don't have an account, you can @Html.ActionLink("create one", "Index", "Home")
+</p>

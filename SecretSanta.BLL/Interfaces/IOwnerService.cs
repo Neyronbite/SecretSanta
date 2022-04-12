@@ -14,6 +14,7 @@ namespace SecretSanta.BLL.Interfaces
     {
         bool Login(OwnerModel owner, bool rememberMe);
         OwnerModel Get(string name);
+        OwnerModel Get(int ID);
         bool Register(OwnerModel owner);
         bool HasSameList(ListModel list);
         string GetClaim(string Type); 

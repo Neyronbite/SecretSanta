@@ -41,7 +41,7 @@ namespace SecretSanta.BLL.Services
             if (_owner.Password == password)
             {
                 string data = JsonConvert.SerializeObject(_owner);
-                var ticket = new FormsAuthenticationTicket(1, _owner.Name, DateTime.Now, DateTime.Now.AddHours(1), rememberMe, data);
+                var ticket = new FormsAuthenticationTicket(1, _owner.Name, DateTime.Now, DateTime.Now.AddHours(72), rememberMe, data);
                 var encryptTicket = FormsAuthentication.Encrypt(ticket);
                 var aothCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptTicket);
                 HttpContext.Current.Response.Cookies.Add(aothCookie);
@@ -126,6 +126,11 @@ namespace SecretSanta.BLL.Services
             }
             return result;
 
+        }
+
+        public OwnerModel Get(int ID)
+        {
+            return _unitOfWork.OwnerRepository.GetByID(ID).MapTo<OwnerModel>();
         }
     }
 }

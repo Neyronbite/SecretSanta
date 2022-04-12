@@ -16,8 +16,8 @@
 <script src="~/Scripts/create-edit.js"></script>
 <script src="~/Scripts/create.js"></script>
 
-<h2>Create</h2>
-<div class="container col-md-10">
+<h2 class="hh">Create Secret Santa List</h2>
+<div class="container col-md-10 hh">
     @using (Html.BeginForm("", "ListActionsAPI", FormMethod.Post, new { @class = "form" }))
     {
         <table class="table">
@@ -42,8 +42,8 @@
                 <td class="no-remove btn btn-success">Important</td>
             </tr>
             <tr>
-                <th>Users</th>
-                <th>Email</th>
+                <th>Participants</th>
+                <th>Emails</th>
             </tr>
             @for (int i = 1; i < Model.Users.Count; i++)
             {

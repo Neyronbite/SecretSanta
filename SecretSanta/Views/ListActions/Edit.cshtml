@@ -15,8 +15,8 @@
 <script src="~/Scripts/create-edit.js"></script>
 <script src="~/Scripts/edit.js"></script>
 
-<h2>Edit</h2>
-<div class="container col-md-10">
+<h2 class="hh">Edit Current List</h2>
+<div class="container col-md-10 hh">
     @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form" }))
     {
         <table class="table">
@@ -41,13 +41,13 @@
                 <td>@Html.EditorFor(m => m.Users[0].Mail) </td>
                 <td class="no-remove btn btn-success">Important</td>
                 <td class="hidable">@if (Model.Users[0].Showed == true)
-                {<text>✔️</text>}
+                {<span>✔️</span>}
             else
-            {<text>❌</text>}</td>
+            {<span>❌</span>}</td>
             </tr>
             <tr>
-                <th>Users</th>
-                <th>Email</th>
+                <th>Participants</th>
+                <th>Emails</th>
             </tr>
             @for (int i = 1; i < Model.Users.Count; i++)
             {
@@ -56,9 +56,9 @@
                     <td>@Html.EditorFor(m => m.Users[i].Mail) </td>
                     <td class="remove btn btn-danger">Remove</td>
                     <td class="hidable">@if (Model.Users[i].Showed == true)
-                    {<text>✔️</text>}
+                    {<span>✔️</span>}
                 else
-                {<text>❌</text>}</td>
+                {<span>❌</span>}</td>
                 </tr>
             }
         </table>

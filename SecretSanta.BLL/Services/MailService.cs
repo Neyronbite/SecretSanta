@@ -1,4 +1,5 @@
 ﻿using SecretSanta.BLL.Interfaces;
+using SecretSanta.DAL.Interfaces;
 using SecretSanta.Models;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,19 @@ namespace SecretSanta.BLL.Services
     public class MailService : IMailService
     {
         private IUserService _userService;
+        private IUnitOfWork _unitOfWork;
 
-        public MailService(IUserService userService)
+        public MailService(IUserService userService, IUnitOfWork unitOfWork)
         {
             _userService = userService;
+            _unitOfWork = unitOfWork;
         }
 
         public string SendMails(int listID)
         {
             var users = _userService.Get(listID);
+            var ownerName = _unitOfWork.ListRepository.GetByID(listID).Owner.Name;
+
 
             List<string> names = users.Select(u => u.Name).ToList();
             Randomize<string>(names);
@@ -30,7 +35,7 @@ namespace SecretSanta.BLL.Services
 
             for (int i = 0; i < users.Count; i++)
             {
-                bool res = SendEmailMessage(users[i].Mail, users[i].Name, names[i]);
+                bool res = SendEmailMessage(users[i].Mail, users[i].Name, names[i], ownerName);
                 if (!res)
                 {
                     error = "you have invalid mail data";
@@ -42,12 +47,22 @@ namespace SecretSanta.BLL.Services
 
         private void Randomize<T>(List<T> items)
         {
+            var itemsTemp = new List<T>();
+            foreach (var item in items)
+            {
+                itemsTemp.Add(item);
+            }
+
             var random = new Random();
             int n = items.Count;
 
             for(int i = 0; i < n; i++)
             {
                 int index = random.Next(i, n);
+                while (itemsTemp[i].ToString() == items[index].ToString())
+                {
+                    index = random.Next(0, n);
+                }
                 T temp = items[index];
                 items[index] = items[i];
                 items[i] = temp;
@@ -55,7 +70,7 @@ namespace SecretSanta.BLL.Services
         }
 
         //TODO fix all
-        private bool SendEmailMessage(string address, string addressorName, string name)
+        private bool SendEmailMessage(string address, string addressorName, string name, string ownerName)
         {
             try
             {
@@ -66,7 +81,7 @@ namespace SecretSanta.BLL.Services
                     mail.From = new MailAddress("secretsantabyneyronbite@gmail.com", "Secret Santa");
                     mail.To.Add(address);
                     mail.Subject = "You are invited to a Secret Santa event";
-                    mail.Body = $"Hi. You are invited ... <a href=\"{link}\">Confirm</a>";
+                    mail.Body = $"Hi. You've been invited to the game Secret Santa by a user named {ownerName}, press the button to find out whose santa you are <br /> <a href=\"{link}\" style=\"background-color: yellow;\">See</a>";
                     mail.IsBodyHtml = true;
 
                     using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
