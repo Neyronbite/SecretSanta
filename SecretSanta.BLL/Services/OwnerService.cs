@@ -30,26 +30,34 @@ namespace SecretSanta.BLL.Services
         public bool Login(OwnerModel owner, bool rememberMe)
         {
             //TODO add salt to password, maybe later
-            var _owner = Get(owner.Name);
-
-            if (_owner == null)
+            try
             {
+                var _owner = Get(owner.Name);
+
+                if (_owner == null)
+                {
+                    return false;
+                }
+                string password = EncodePassword(owner.Password);
+
+                if (_owner.Password == password)
+                {
+                    string data = JsonConvert.SerializeObject(_owner);
+                    var ticket = new FormsAuthenticationTicket(1, _owner.Name, DateTime.Now, DateTime.Now.AddHours(72), rememberMe, data);
+                    var encryptTicket = FormsAuthentication.Encrypt(ticket);
+                    var aothCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptTicket);
+                    HttpContext.Current.Response.Cookies.Add(aothCookie);
+
+                    return true;
+                }
+
                 return false;
             }
-            string password = EncodePassword(owner.Password);
-
-            if (_owner.Password == password)
+            catch (Exception)
             {
-                string data = JsonConvert.SerializeObject(_owner);
-                var ticket = new FormsAuthenticationTicket(1, _owner.Name, DateTime.Now, DateTime.Now.AddHours(72), rememberMe, data);
-                var encryptTicket = FormsAuthentication.Encrypt(ticket);
-                var aothCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptTicket);
-                HttpContext.Current.Response.Cookies.Add(aothCookie);
 
-                return true;
+                return false;
             }
-
-            return false;
         }
 
         public bool CheckOwner(OwnerModel owner)

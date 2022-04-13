@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Confirm";
     ViewBag.footer = SecretSanta.common.Enums.PartialStateEnum.none.ToString();
+
+    var time = (DateTime)Model.List?.Time;
+    string timeStr = $"{time.Year}-{time.Month}-{time.Day}";
 }
 
 <script type="text/javascript">
@@ -15,7 +18,7 @@
 
 <h3 class="hh">
     You've been invited to the game Secret Santa by a user named @Model.Owner.Name <br />
-    Now you will have to give a present to a participant named @Model.Name
+    Now you will have to give a present to a participant named @Model.Name on @timeStr
 </h3>
 
 <p class="hh">

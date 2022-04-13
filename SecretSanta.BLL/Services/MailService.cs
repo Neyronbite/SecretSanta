@@ -76,7 +76,7 @@ namespace SecretSanta.BLL.Services
             {
                 using (MailMessage mail = new MailMessage())
                 {
-                    string link = $"http://secretsanta.com/ListActions/Confirm?addressorName={addressorName}&name={name}";
+                    string link = $"https://secretsanta.somee.com/ListActions/Confirm?addressorName={addressorName}&name={name}";
                     //string link = "https://www.youtube.com/watch?v=MMxPbKRyh7M&list=RDMMxPbKRyh7M&start_radio=1";
                     mail.From = new MailAddress("secretsantabyneyronbite@gmail.com", "Secret Santa");
                     mail.To.Add(address);
