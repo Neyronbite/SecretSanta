@@ -11,7 +11,7 @@
                 data => {
                     let send = confirm("send Email verifications?");
                     if (send) {
-                        sendMails(data.listID);
+                        sendMails(data);
                     }
                     window.open(editPage + "/" + data);
                 },
